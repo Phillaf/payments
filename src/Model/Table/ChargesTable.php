@@ -1,11 +1,11 @@
 <?php
-namespace GintonicCMS\Model\Table;
+namespace Payments\Model\Table;
 
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use GintonicCMS\Model\Entity\Charge;
+use Payments\Model\Entity\Charge;
 
 /**
  * Charges Model
@@ -30,7 +30,7 @@ class ChargesTable extends Table
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id',
             'joinType' => 'INNER',
-            'className' => 'GintonicCMS.Customers'
+            'className' => 'Payments.Customers'
         ]);
     }
 

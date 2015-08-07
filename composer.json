@@ -24,12 +24,12 @@
     },
     "autoload": {
         "psr-4": {
-            "GintonicCMS\\Payments\\": "src"
+            "Payments\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "GintonicCMS\\Payments\\Test\\": "tests"
+            "Payments\\Test\\": "tests"
         }
     }
 }

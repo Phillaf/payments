@@ -1,10 +1,10 @@
 <?php
-namespace GintonicCMS\Model\Entity;
+namespace Payments\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use GintonicCMS\Model\Entity\Plan;
-use GintonicCMS\Model\Entity\Customer;
+use Payments\Model\Entity\Plan;
+use Payments\Model\Entity\Customer;
 
 /**
  * Charge Entity.
