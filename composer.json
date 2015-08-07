@@ -1,0 +1,35 @@
+{
+    "name": "gintonicweb/payments",
+    "description": "Wrapper for payment gateways on CakePHP",
+    "type": "cakephp-plugin",
+    "homepage": "http://gintoniccms.com",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Philippe Lafrance",
+            "homepage": "http://phillafrance.com",
+            "role": "Author"
+        },
+        {
+            "name": "GintonicWeb Contributors",
+            "homepage": "http://github.com/gintonicweb/payments/graphs/contributors"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/gintonicweb/payments/issues",
+        "source": "https://github.com/gintonicweb/payments"
+    },
+    "require": {
+        "cakephp/cakephp": "~3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "GintonicCMS\\Payments\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "GintonicCMS\\Payments\\Test\\": "tests"
+        }
+    }
+}
