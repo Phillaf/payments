@@ -20,7 +20,7 @@
         "source": "https://github.com/gintonicweb/payments"
     },
     "require": {
-        "stripe/stripe-php": "3.*"
+        "stripe/stripe-php": "3.*",
         "cakephp/cakephp": "~3.0"
     },
     "autoload": {
