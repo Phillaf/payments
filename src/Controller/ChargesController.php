@@ -10,21 +10,6 @@ use App\Controller\AppController;
  */
 class ChargesController extends AppController
 {
-
-    /**
-     * Index method
-     *
-     * @return void
-     */
-    public function index()
-    {
-        $this->paginate = [
-            'contain' => ['Customers']
-        ];
-        $this->set('charges', $this->paginate($this->Charges));
-        $this->set('_serialize', ['charges']);
-    }
-
     /**
      * View method
      *
