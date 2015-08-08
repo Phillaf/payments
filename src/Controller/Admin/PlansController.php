@@ -1,5 +1,5 @@
 <?php
-namespace GintonicCMS\Controller\Admin;
+namespace Payments\Controller\Admin;
 
 use App\Controller\Admin\AppController;
 use Cake\Event\Event;
@@ -8,7 +8,9 @@ use Cake\ORM\TableRegistry;
 /**
  * Plans Controller
  *
- * @property \GintonicCMS\Model\Table\PlansTable $Plans
+ * @property \Payments\Model\Table\PlansTable $Plans
+ * @property \Payments\Model\Table\PlansTable $Plans
+ * @property \Payments\Model\Table\PlansTable $Plans
  */
 class PlansController extends AppController
 {

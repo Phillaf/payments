@@ -11,7 +11,7 @@
  * @link          http://gintoniccms.com GintonicCMS Project
  * @license       http://www.opensource.org/licenses/mit-license.php MIT License
  */
-namespace GintonicCMS\Model\Table;
+namespace Payments\Model\Table;
 
 use Cake\ORM\Query;
 use Cake\ORM\ResultSet;
@@ -19,7 +19,7 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
 use Cake\Validation\Validator;
-use GintonicCMS\Model\Entity\Plan;
+use Payments\Model\Entity\Plan;
 
 /**
  * Plans Model

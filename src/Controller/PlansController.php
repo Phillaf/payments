@@ -1,12 +1,12 @@
 <?php
-namespace GintonicCMS\Controller;
+namespace Payments\Controller;
 
-use GintonicCMS\Controller\AppController;
+use App\Controller\AppController;
 
 /**
  * Plans Controller
  *
- * @property \GintonicCMS\Model\Table\PlansTable $Plans
+ * @property \Payments\Model\Table\PlansTable $Plans
  */
 class PlansController extends AppController
 {
