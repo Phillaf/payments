@@ -45,7 +45,7 @@ class PlansTable extends Table
         $this->addBehavior('Timestamp');
         $this->hasMany('Subscriptions', [
             'foreignKey' => 'plan_id',
-            'className' => 'GintonicCMS.Subscriptions'
+            'className' => 'Payments.Subscriptions'
         ]);
         $this->hasMany('Acl.Aros', [
             'conditions' => ['Aros.model' => 'Plans'],
@@ -86,11 +86,6 @@ class PlansTable extends Table
             ->add('interval_count', 'valid', ['rule' => 'numeric'])
             ->requirePresence('interval_count', 'create')
             ->notEmpty('interval_count');
-            
-        $validator
-            ->add('trial_period_days', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('trial_period_days', 'create')
-            ->notEmpty('trial_period_days');
 
         return $validator;
     }

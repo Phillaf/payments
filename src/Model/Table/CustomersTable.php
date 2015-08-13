@@ -1,11 +1,11 @@
 <?php
-namespace GintonicCMS\Model\Table;
+namespace Payments\Controller;
 
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use GintonicCMS\Model\Entity\Customer;
+use Payments\Model\Entity\Customer;
 
 /**
  * Customers Model
@@ -34,15 +34,15 @@ class CustomersTable extends Table
         $this->belongsTo('Users', [
             'foreignKey' => 'user_id',
             'joinType' => 'INNER',
-            'className' => 'GintonicCMS.Users'
+            'className' => 'Payments.Users'
         ]);
         $this->hasMany('Charges', [
             'foreignKey' => 'customer_id',
-            'className' => 'GintonicCMS.Charges'
+            'className' => 'Payments.Charges'
         ]);
         $this->hasMany('Subscriptions', [
             'foreignKey' => 'customer_id',
-            'className' => 'GintonicCMS.Subscriptions'
+            'className' => 'Payments.Subscriptions'
         ]);
     }
 

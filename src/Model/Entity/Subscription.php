@@ -1,5 +1,5 @@
 <?php
-namespace GintonicCMS\Model\Entity;
+namespace Payments\Model\Entity;
 
 use Cake\ORM\Entity;
 

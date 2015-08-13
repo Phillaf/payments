@@ -5,7 +5,7 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use GintonicCMS\Model\Entity\Subscription;
+use Payments\Model\Entity\Subscription;
 
 /**
  * Subscriptions Model
@@ -32,12 +32,12 @@ class SubscriptionsTable extends Table
         $this->belongsTo('Plans', [
             'foreignKey' => 'plan_id',
             'joinType' => 'INNER',
-            'className' => 'GintonicCMS.Plans'
+            'className' => 'Payments.Plans'
         ]);
         $this->belongsTo('Customers', [
             'foreignKey' => 'customer_id',
             'joinType' => 'INNER',
-            'className' => 'GintonicCMS.Customers'
+            'className' => 'Payments.Customers'
         ]);
     }
 
@@ -63,11 +63,6 @@ class SubscriptionsTable extends Table
             ->notEmpty('cancel_at_period_end');
 
         $validator
-            ->add('application_fee_percent', 'valid', ['rule' => 'decimal'])
-            ->requirePresence('application_fee_percent', 'create')
-            ->notEmpty('application_fee_percent');
-
-        $validator
             ->add('start', 'valid', ['rule' => 'datetime'])
             ->requirePresence('start', 'create')
             ->notEmpty('start');
@@ -83,25 +78,12 @@ class SubscriptionsTable extends Table
             ->notEmpty('current_period_end');
 
         $validator
-            ->add('tax_percent', 'valid', ['rule' => 'decimal'])
-            ->requirePresence('tax_percent', 'create')
-            ->notEmpty('tax_percent');
-
-        $validator
             ->add('ended_at', 'valid', ['rule' => 'datetime'])
             ->allowEmpty('ended_at');
 
         $validator
             ->add('canceled_at', 'valid', ['rule' => 'datetime'])
             ->allowEmpty('canceled_at');
-
-        $validator
-            ->add('trial_start', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('trial_start');
-
-        $validator
-            ->add('trial_end', 'valid', ['rule' => 'datetime'])
-            ->allowEmpty('trial_end');
 
         return $validator;
     }
@@ -115,7 +97,6 @@ class SubscriptionsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['stripe_subscription_id'], 'StripeSubscriptions'));
         $rules->add($rules->existsIn(['plan_id'], 'Plans'));
         $rules->add($rules->existsIn(['customer_id'], 'Customers'));
         return $rules;
