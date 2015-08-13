@@ -34,7 +34,7 @@
                 'limit' => null,
                 'null' => false,
             ])
-            ->addColumn('interval', 'text', [
+            ->addColumn('interval_time', 'text', [
                 'default' => null,
                 'limit' => null,
                 'null' => false,
@@ -47,7 +47,7 @@
             ->addColumn('created', 'datetime', [
                 'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->create();
             
@@ -74,7 +74,7 @@
             ->addColumn('created', 'datetime', [
                 'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->create();
             
@@ -106,27 +106,27 @@
             ->addColumn('start', 'datetime', [
                 'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->addColumn('current_period_start', 'datetime', [
                 'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->addColumn('current_period_end', 'datetime', [
                 'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->addColumn('ended_at', 'datetime', [
                 'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->addColumn('canceled_at', 'datetime', [
                 'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->create();
             
@@ -173,7 +173,7 @@
             ->addColumn('created', 'datetime', [
                 'default' => null,
                 'limit' => null,
-                'null' => false,
+                'null' => true,
             ])
             ->create();
 
