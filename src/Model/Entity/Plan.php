@@ -1,5 +1,5 @@
 <?php
-namespace GintonicCMS\Model\Entity;
+namespace Payments\Model\Entity;
 
 use Cake\ORM\Entity;
 
@@ -15,14 +15,7 @@ class Plan extends Entity
      * @var array
      */
     protected $_accessible = [
-        'stripe_plan_id' => true,
-        'name' => true,
-        'amount' => true,
-        'currency' => true,
-        'interval_type' => true,
-        'interval_count' => true,
-        'trial_period_days' => true,
-        'stripe_plan' => true,
-        'subscriptions' => true,
+        '*' => true,
+        'id' => false,
     ];
 }
