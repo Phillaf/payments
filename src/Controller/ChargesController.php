@@ -30,14 +30,15 @@ class ChargesController extends AppController
             // Create the requested charge
             $chargeData = $charge->createPlanCharge($this->request->data);
             
+            debug($chargeData);
+            // Save it in the database
             $charge = $this->Charges->patchEntity($charge, $chargeData);
-            debug($charge);
-            /*if ($this->Charges->save($charge)) {
+            if ($this->Charges->save($charge)) {
                 $this->Flash->success(__('The charge has been saved.'));
-                return $this->redirect(['action' => 'plan']);
+                return $this->redirect(['action' => 'charges']);
             } else {
                 $this->Flash->error(__('The charge could not be saved. Please, try again.'));
-            }*/
+            }
         }
         $customers = $this->Charges->Customers->find('list', ['limit' => 200]);
         $this->set(compact('charge', 'customers'));
