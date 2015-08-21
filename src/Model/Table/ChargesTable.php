@@ -5,7 +5,8 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Payments\Model\Entity\Charge;
+use Payments\Model\Entity\ChargePaypal;
+use Payments\Model\Entity\ChargeStripe;
 
 /**
  * Charges Model
@@ -34,6 +35,27 @@ class ChargesTable extends Table
         ]);
     }
 
+
+    public function newEntity($data = null, array $options = [])
+    {
+        if ($data === null) {
+            if (isset($options['gateway'])) {
+                if ($options['gateway'] == 'Stripe') {
+                    $entity = new ChargeStripe([], ['source' => $this->registryAlias()]);
+                }
+                else if ($options['gateway'] == 'PayPal_Express') {
+                        $entity = new ChargePaypal([], ['source' => $this->registryAlias()]);
+                }
+                else {
+                    // TODO exception
+                }
+                return $entity;
+            }
+        }
+        
+        return parent::newEntity($data, $options);
+    }
+    
     /**
      * Default validation rules.
      *
@@ -55,10 +77,6 @@ class ChargesTable extends Table
             ->requirePresence('currency', 'create')
             ->notEmpty('currency');
             
-        /*$validator
-            ->requirePresence('status', 'create')
-            ->notEmpty('status');*/
-            
         $validator
             ->add('paid', 'valid', ['rule' => 'boolean'])
             ->requirePresence('paid', 'create')
@@ -71,15 +89,6 @@ class ChargesTable extends Table
         $validator
             ->requirePresence('receipt_number', 'create')
             ->notEmpty('receipt_number');
-            
-        /*$validator
-            ->add('refunded', 'valid', ['rule' => 'boolean'])
-            ->requirePresence('refunded', 'create')
-            ->notEmpty('refunded');
-            
-        $validator
-            ->requirePresence('failure_message', 'create')
-            ->notEmpty('failure_message');*/
 
         return $validator;
     }
