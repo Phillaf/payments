@@ -32,7 +32,7 @@ class ChargesController extends AppController
             
             // Create the requested charge
             $chargeData = $charge->purchasePlan($config[$gatewayName], $this->request->data);
-            debug($chargeData);
+            //debug($chargeData);
             
             // Save it in the database
             $charge = $this->Charges->patchEntity($charge, $chargeData);

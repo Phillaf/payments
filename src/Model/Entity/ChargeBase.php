@@ -63,7 +63,7 @@ abstract class ChargeBase extends Entity
         $purchaseData['id'] = null;
         
         // Proceed to subscription
-        $this->subscribePlan($data['plan_id'], $data['user_id']); exit;
+        $this->subscribePlan($data['plan_id'], $data['user_id']);
         
         return $purchaseData;
     }
