@@ -48,6 +48,9 @@ abstract class ChargeBase extends Entity
         
         $purchaseData = $this->purchase($data);
         
+        // Keep track of used gateway
+        $purchaseData['gateway'] = $this->$_name;
+        
         return $purchaseData;
     }
     
@@ -60,6 +63,9 @@ abstract class ChargeBase extends Entity
         $this->create($data);
         
         $purchaseData = $this->purchase($data);
+        
+        // Keep track of used gateway
+        $purchaseData['gateway'] = $this->$_name;
         
         return $purchaseData;
     }
