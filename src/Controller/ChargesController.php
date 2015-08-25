@@ -2,9 +2,7 @@
 namespace Payments\Controller;
 
 use Cake\Core\Configure;
-
 use App\Controller\AppController;
-use Payments\Model\Entity\ChargePaypal;
 
 /**
  * Charges Controller
@@ -34,8 +32,8 @@ class ChargesController extends AppController
             
             // Create the requested charge
             $chargeData = $charge->purchasePlan($config[$gatewayName], $this->request->data);
-            
             debug($chargeData);
+            
             // Save it in the database
             $charge = $this->Charges->patchEntity($charge, $chargeData);
             if ($this->Charges->save($charge)) {
@@ -43,7 +41,7 @@ class ChargesController extends AppController
                 return $this->redirect(['action' => 'index']);
             } else {
                 $this->Flash->error(__('The charge could not be saved. Please, try again.'));
-            }
+            } 
         }
         $users = $this->Charges->Users->find('list', ['limit' => 200]);
         $this->set(compact('charge', 'users'));

@@ -72,7 +72,7 @@
                 'null' => false,
             ])
             ->addColumn('cancel_at_period_end', 'boolean', [
-                'default' => false,
+                'default' => true,
                 'limit' => null,
                 'null' => false,
             ])

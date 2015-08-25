@@ -3,7 +3,11 @@ namespace Payments\Model\Entity;
 
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
+use Cake\Network\Exception\InternalErrorException;
 use Payments\Model\Entity\Plan;
+use Payments\Model\Entity\Subscription;
+
+use Cake\I18n\Time;
 
 /**
  * ChargeBase Entity.
@@ -58,6 +62,9 @@ abstract class ChargeBase extends Entity
         $purchaseData['receipt_number'] = '01234';
         $purchaseData['id'] = null;
         
+        // Proceed to subscription
+        $this->subscribePlan($data['plan_id'], $data['user_id']); exit;
+        
         return $purchaseData;
     }
     
@@ -81,7 +88,7 @@ abstract class ChargeBase extends Entity
     {
         // Validate info
         if (is_null($plan_id)) {
-            throw new InternalErrorException('Invalid Plan ID.');
+            throw new InternalErrorException('Invalid Plan Index.');
         }
         
         // Retrieve plan information
@@ -95,13 +102,47 @@ abstract class ChargeBase extends Entity
     {
         // Validate info
         if (is_null($product_id)) {
-            throw new InternalErrorException('Invalid Product ID.');
+            throw new InternalErrorException('Invalid Product Index.');
         }
         
         // TODO
-        $product = TableRegistry::get('Product')->get($product_id);
+        $product = TableRegistry::get('Products')->get($product_id);
         $product['amount_unit'] = $product['amount']/100.0;   // Product price should be in cents
         
         return $product;
+    }
+    
+      private function subscribePlan($plan_id, $user_id)
+    {
+        // Validate info
+        if (is_null($plan_id)) {
+            throw new InternalErrorException('Invalid Product Index.');
+        }
+        else if (is_null($user_id)) {
+            throw new InternalErrorException('Invalid User Index.');
+        }
+        
+        // Create a subscription
+        // TODO: validate if exists already
+        $subscription = TableRegistry::get('Subscriptions')->newEntity();
+        
+        // Fill in info
+        $subInfo['plan_id'] = $plan_id;
+        $subInfo['current_period_end'] = Time::now();   // todo: add plan time
+        
+        // Save it in the database
+        $subscription = TableRegistry::get('Subscriptions')->patchEntity($subscription, $subInfo);
+        if (TableRegistry::get('Subscriptions')->save($subscription)) {
+            //$this->Flash->success(__('The subscription has been saved.'));
+            //return $this->redirect(['action' => 'index']);
+            debug('Subscription success');
+        } else {
+            //$this->Flash->error(__('The subscription could not be saved. Please, try again.'));
+            debug('Subscription failed');
+        } 
+    
+        debug($subscription);
+        
+        return $subscription;
     }
 }
