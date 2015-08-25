@@ -52,33 +52,6 @@
             ->create();
             
             //
-            // Customers
-            //
-            $table = $this->table('customers');
-            $table
-            ->addColumn('user_id', 'integer', [
-                'default' => null,
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('currency', 'text', [
-                'default' => null,
-                'limit' => null,
-                'null' => false,
-            ])
-            ->addColumn('deliquent', 'boolean', [
-                'default' => false,
-                'limit' => null,
-                'null' => false,
-            ])
-            ->addColumn('created', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->create();
-            
-            //
             // Subscriptions
             //
             $table = $this->table('subscriptions');
@@ -88,7 +61,7 @@
                 'limit' => 11,
                 'null' => false,
             ])
-            ->addColumn('customer_id', 'integer', [
+            ->addColumn('user_id', 'integer', [
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
@@ -135,7 +108,7 @@
             //
             $table = $this->table('charges');
             $table
-            ->addColumn('customer_id', 'integer', [
+            ->addColumn('user_id', 'integer', [
                 'default' => null,
                 'limit' => 11,
                 'null' => false,
@@ -159,6 +132,11 @@
                 'default' => false,
                 'limit' => null,
                 'null' => false,
+            ])
+            ->addColumn('charged_with', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => true,
             ])
             ->addColumn('receipt_email', 'text', [
                 'default' => null,

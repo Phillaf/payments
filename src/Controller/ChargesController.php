@@ -45,8 +45,8 @@ class ChargesController extends AppController
                 $this->Flash->error(__('The charge could not be saved. Please, try again.'));
             }
         }
-        $customers = $this->Charges->Customers->find('list', ['limit' => 200]);
-        $this->set(compact('charge', 'customers'));
+        $users = $this->Charges->Users->find('list', ['limit' => 200]);
+        $this->set(compact('charge', 'users'));
         $this->set('_serialize', ['charge']); 
     }
 }

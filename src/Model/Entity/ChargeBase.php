@@ -17,14 +17,15 @@ abstract class ChargeBase extends Entity
      * @var array
      */
     protected $_accessible = [
-        'customer_id' => true,
+        'user_id' => true,
         'amount' => true,
         'currency' => true,
         'status' => true,
         'paid' => true,
+        'charged_with' => true,
         'receipt_email' => true,
         'receipt_number' => true,
-        'customer' => true,
+        'user' => true,
     ];
     
     protected $_name;
@@ -49,7 +50,13 @@ abstract class ChargeBase extends Entity
         $purchaseData = $this->purchase($data);
         
         // Keep track of used gateway
-        $purchaseData['gateway'] = $this->$_name;
+        $purchaseData['charged_with'] = $this->_name;
+        
+        // \todo Extra fields
+        $purchaseData['user_id'] = $data['user_id'];
+        $purchaseData['receipt_email'] = 'test@mail.com';
+        $purchaseData['receipt_number'] = '01234';
+        $purchaseData['id'] = null;
         
         return $purchaseData;
     }

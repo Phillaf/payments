@@ -11,7 +11,7 @@ use Payments\Model\Entity\ChargeStripe;
 /**
  * Charges Model
  *
- * @property \Cake\ORM\Association\BelongsTo $Customers
+ * @property \Cake\ORM\Association\BelongsTo $Users
  */
 class ChargesTable extends Table
 {
@@ -28,10 +28,10 @@ class ChargesTable extends Table
         $this->displayField('id');
         $this->primaryKey('id');
         $this->addBehavior('Timestamp');
-        $this->belongsTo('Customers', [
-            'foreignKey' => 'customer_id',
+        $this->belongsTo('Users', [
+            'foreignKey' => 'user_id',
             'joinType' => 'INNER',
-            'className' => 'Payments.Customers'
+            'className' => 'Payments.Users'
         ]);
     }
 
@@ -102,7 +102,7 @@ class ChargesTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['customer_id'], 'Customers'));
+        $rules->add($rules->existsIn(['user_id'], 'Users'));
         return $rules;
     }
 }

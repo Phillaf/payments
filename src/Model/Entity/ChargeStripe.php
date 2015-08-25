@@ -13,8 +13,9 @@ class ChargeStripe extends ChargeBase
 {
     public function create($config)
     {
-        debug($config);
         // Create payment gateway
+        $this->_name = 'Stripe';
+        
         $this->_gateway = Omnipay::create('Stripe');
         $this->_gateway->setApiKey($config['apiKey']);
     }
@@ -56,11 +57,6 @@ class ChargeStripe extends ChargeBase
         }
         
         $purchaseData = $response->getData();
-        
-        // Not filled in response ??
-        $purchaseData['receipt_email'] = 'test@mail.com';
-        $purchaseData['receipt_number'] = '0';
-        $purchaseData['id'] = null;
         
         return $purchaseData;
     }

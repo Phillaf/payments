@@ -38,7 +38,6 @@ class ChargePaypal extends ChargeBase
         if ($response->isSuccessful()) {
             // payment was successful: update database
             debug("Great success");
-            debug ($response);
         } elseif ($response->isRedirect()) {
             // redirect to offsite payment gateway
             debug("Great redirect");
@@ -50,11 +49,6 @@ class ChargePaypal extends ChargeBase
         }
         
         $data = $response->getData();
-        
-        // Not filled in response ??
-        $data['receipt_email'] = 'test@mail.com';
-        $data['receipt_number'] = '0';
-        $data['id'] = null;
         
         return $data;
     }
