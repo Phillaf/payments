@@ -1,7 +1,7 @@
 <?php
 namespace Payments\Controller;
 
-use Cake\Core\Configure;
+
 use App\Controller\AppController;
 
 /**

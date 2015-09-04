@@ -37,30 +37,21 @@ abstract class ChargeBase extends Entity
     
     // Abstract functions
     abstract protected function create($config);
-    abstract protected function purchase($data);
+    abstract protected function purchase($data, $chargeable);
     
-    public function purchasePlan($config, $data)
+    public function purchase($config, $data, $chargeable)
     {
-        // Retrieve plan information
-        $plan = $this->getPlan($data['plan_id']);
-        
+        // Setup gateway
         $this->create($config);
-        
-        // Fill in plan purchase data
-        $data['name'] = $plan['name']; 
-        $data['amount'] = $plan['amount_unit']; 
-        $data['currency'] = $plan['currency']; 
-        
-        $purchaseData = $this->purchase($data);
-        
-        // Keep track of used gateway
-        $purchaseData['charged_with'] = $this->_name;
+        $purchaseData = $this->purchase($data, $chargeable);
         
         // \todo Extra fields
-        $purchaseData['user_id'] = $data['user_id'];
-        $purchaseData['receipt_email'] = 'test@mail.com';
-        $purchaseData['receipt_number'] = '01234';
-        $purchaseData['id'] = null;
+        $this->charged_with = $this->_name;
+        
+        $this->user_id = $data['user_id'];
+        $this->receipt_email = 'test@mail.com';
+        $this->receipt_number = '01234';
+        $this->id = null;
         
         // Proceed to subscription
         $this->subscribePlan($data['plan_id'], $data['user_id']);
@@ -75,28 +66,36 @@ abstract class ChargeBase extends Entity
         
         // Setup gateway
         $this->create($data);
+        $purchaseData['charged_with'] = $this->$_name;
         
         $purchaseData = $this->purchase($data);
         
-        // Keep track of used gateway
-        $purchaseData['gateway'] = $this->$_name;
+
         
         return $purchaseData;
     }
 
-    private function getPlan($plan_id)
+    /*private function getPlan($plan_id)
     {
         // Validate info
         if (is_null($plan_id)) {
             throw new InternalErrorException('Invalid Plan Index.');
         }
         
+        debug(TableRegistry::get('Plans'));
+        debug(TableRegistry::get('Payments.Plans'));
+
+        $tmp = TableRegistry::get('Payments.Plans')->getPrice($plan_id);
+        debug($tmp); exit;
+        
         // Retrieve plan information
         $plan = TableRegistry::get('Plans')->get($plan_id);
         $plan['amount_unit'] = $plan['amount']/100.0;   // Plan amount should be in cents
         
+        debug($plan); exit;
+        
         return $plan;
-    }
+    }*/
 
     private function getProduct($product_id)
     {

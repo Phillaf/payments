@@ -20,7 +20,7 @@ class ChargeStripe extends ChargeBase
         $this->_gateway->setApiKey($config['apiKey']);
     }
 
-    public function purchase($data)
+    public function purchase($data, $chargeable)
     {
         $formData = array( 
             'number' => $data['card-number'], 
@@ -30,13 +30,13 @@ class ChargeStripe extends ChargeBase
         );
         
         $params = array(
-            'name'		        => $data['name'],
-            'description' 	    => 'Test Plan',
-            'amount' 	        => $data['amount'],
-            'currency' 	        => $data['currency'],
-            'receipt_email'     => 'test@mail.com',
-            'receipt_number'    => '0',
-            'card'              => $formData,
+            'name' => $chargeable['name'],
+            'description' => $chargeable['description'],
+            'amount' => $chargeable['amount'],
+            'currency' => $chargeable['currency'],
+            'receipt_email' => 'test@mail.com',
+            'receipt_number' => '0',
+            'card' => $formData,
         );
         
         debug($params);

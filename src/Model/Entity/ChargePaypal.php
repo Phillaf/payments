@@ -23,14 +23,14 @@ class ChargePaypal extends ChargeBase
         $this->_gateway->setTestMode($config['testMode']);
     }
 
-    public function purchase($data)
+    public function purchase($data, $chargeable)
     {
         $params = array(
-            'cancelUrl' 	=> 'http://cms/payments/charges/index',
-            'returnUrl' 	=> 'http://cms/payments/charges/index', 
-            'description' 	=> 'Test',
-            'amount' 	    => $data['amount'],
-            'currency' 	    => $data['currency'],
+            'cancelUrl' => 'http://cms/payments/charges/index',
+            'returnUrl' => 'http://cms/payments/charges/index', 
+            'description' => $chargeable['description']
+            'amount' => $chargeable['amount'],
+            'currency' => $chargeable['currency'],
         );
             
         $response = $this->_gateway->purchase($params)->send();

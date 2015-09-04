@@ -6,6 +6,8 @@ use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
 use Payments\Model\Entity\Plan;
+use Payments\Model\Behavior\ChargeableBehavior;
+
 
 /**
  * Plans Model
@@ -23,7 +25,7 @@ class PlansTable extends Table
      */
     public function initialize(array $config)
     {
-        parent::initialize($config);
+       parent::initialize($config);
 
         $this->table('plans');
         $this->displayField('name');
@@ -33,6 +35,9 @@ class PlansTable extends Table
             'foreignKey' => 'plan_id',
             'className' => 'Payments.Subscriptions'
         ]);
+        
+        //$this->addBehavior('Payments.Chargeable');
+        $this->addBehavior('Payments.Chargeable', ['amount' => 'amount', 'currency' => 'currency']);
     }
 
     /**
@@ -46,28 +51,6 @@ class PlansTable extends Table
         $validator
             ->add('id', 'valid', ['rule' => 'numeric'])
             ->allowEmpty('id', 'create');
-
-        /*$validator
-            ->requirePresence('name', 'create')
-            ->notEmpty('name');
-
-        $validator
-            ->add('amount', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('amount', 'create')
-            ->notEmpty('amount');
-
-        $validator
-            ->requirePresence('currency', 'create')
-            ->notEmpty('currency');
-
-        $validator
-            ->requirePresence('interval', 'create')
-            ->notEmpty('interval');
-
-        $validator
-            ->add('interval_count', 'valid', ['rule' => 'numeric'])
-            ->requirePresence('interval_count', 'create')
-            ->notEmpty('interval_count');*/
 
         return $validator;
     }
