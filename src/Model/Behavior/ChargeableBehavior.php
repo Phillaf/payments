@@ -39,7 +39,7 @@ class ChargeableBehavior extends Behavior
     public function initialize(array $config)
     {
         if (is_null($config['amount'])) {
-            // OMG
+            // todo
         }
     }
     
