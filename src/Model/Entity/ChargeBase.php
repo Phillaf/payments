@@ -36,14 +36,13 @@ abstract class ChargeBase extends Entity
     protected $_gateway;
     
     // Abstract functions
-    abstract protected function create($config);
-    abstract protected function purchase($data, $chargeable);
+    abstract public function create($config);
+    abstract protected function purchaseInternal($data, $chargeable);
     
-    public function purchase($config, $data, $chargeable)
+    public function purchase($data, $chargeable)
     {
         // Setup gateway
-        $this->create($config);
-        $purchaseData = $this->purchase($data, $chargeable);
+        $this->purchaseInternal($data, $chargeable);
         
         // \todo Extra fields
         $this->charged_with = $this->_name;
@@ -54,64 +53,11 @@ abstract class ChargeBase extends Entity
         $this->id = null;
         
         // Proceed to subscription
-        $this->subscribePlan($data['plan_id'], $data['user_id']);
-        
-        return $purchaseData;
+        //$this->subscribePlan($data['plan_id'], $data['user_id']);
     }
+
     
-    public function purchaseProduct($data)
-    {
-        // Retrieve product information
-        $product = ChargeBase::getProduct($data['product_id']);
-        
-        // Setup gateway
-        $this->create($data);
-        $purchaseData['charged_with'] = $this->$_name;
-        
-        $purchaseData = $this->purchase($data);
-        
-
-        
-        return $purchaseData;
-    }
-
-    /*private function getPlan($plan_id)
-    {
-        // Validate info
-        if (is_null($plan_id)) {
-            throw new InternalErrorException('Invalid Plan Index.');
-        }
-        
-        debug(TableRegistry::get('Plans'));
-        debug(TableRegistry::get('Payments.Plans'));
-
-        $tmp = TableRegistry::get('Payments.Plans')->getPrice($plan_id);
-        debug($tmp); exit;
-        
-        // Retrieve plan information
-        $plan = TableRegistry::get('Plans')->get($plan_id);
-        $plan['amount_unit'] = $plan['amount']/100.0;   // Plan amount should be in cents
-        
-        debug($plan); exit;
-        
-        return $plan;
-    }*/
-
-    private function getProduct($product_id)
-    {
-        // Validate info
-        if (is_null($product_id)) {
-            throw new InternalErrorException('Invalid Product Index.');
-        }
-        
-        // TODO
-        $product = TableRegistry::get('Products')->get($product_id);
-        $product['amount_unit'] = $product['amount']/100.0;   // Product price should be in cents
-        
-        return $product;
-    }
-    
-      private function subscribePlan($plan_id, $user_id)
+    private function subscribePlan($plan_id, $user_id)
     {
         // Validate info
         if (is_null($plan_id)) {
@@ -140,7 +86,7 @@ abstract class ChargeBase extends Entity
             debug('Subscription failed');
         } 
     
-        debug($subscription);
+        //debug($subscription);
         
         return $subscription;
     }

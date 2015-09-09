@@ -43,31 +43,62 @@ class ChargeableBehavior extends Behavior
         }
     }
     
-    public function purchase($ccData, $userId, $chargeableId, $quantity)
+    public function purchase($cardData, $userId, $chargeableId, $quantity)
     {
+        // todo: deal with gateway config somewhere else
         // Get payments configuration
-        $config = Configure::read('Payments');
-        $gatewayName = $config['gateway'];
+        $gatewayConfig = Configure::read('Payments');
+        $gatewayName = $gatewayConfig['gateway'];
         
         $chargeTable = TableRegistry::get('Payments.Charges');
-        $charge = $chargeTable->newEntity();
+        $charge = $chargeTable->newEntity(null, $gatewayConfig);
         
-        // todo: Manage names
-        $chargeable[$this->config['amount']];
-        
-        // todo: Manage defaults
-
         // Get the chargeable entity
-        $chargeable =  $this->_table->find()->where([$this->_table->primaryKey() . ' IN' => $chargeableId])->hydrate(false)->toArray();
-        $charge->purchase($config, $ccData, $chargeable);
-         
+        $chargeable = $this->_table->find()->where([$this->_table->primaryKey() . ' IN' => $chargeableId])->hydrate(false)->toArray();
+        $chargeable = $this->setFields($chargeable[0]); // todo: unique
+
+        // Create a charge and process it
+        $charge->create($gatewayConfig[$gatewayName]);
+        $charge->purchase($cardData, $chargeable);
         
-        $charge = $chargeTable->patchEntity($charge, $chargeData);
-        if ($this->Charges->save($charge)) {
-            $this->Flash->success(__('The charge has been saved.'));
-            return $this->redirect(['action' => 'index']);
-        } else {
-            $this->Flash->error(__('The charge could not be saved. Please, try again.'));
-        } 
+        // Save it in the data base
+        if (!$chargeTable->save($charge)) {
+            // todo: message
+            return $charge;
+        }
+        return $charge;
+    }
+    
+    protected function setFields($chargeable)
+    {
+        // Set necessary fields
+        $chargeable['amount'] = $chargeable[$this->_config['amount']];
+        $chargeable['amount_unit'] = $chargeable['amount']/100.0;   // Plan amount should be in cents
+        
+        // Default currency field
+        if (is_null($this->_config['currency']) || !isset($chargeable[$this->_config['currency']])) {
+            $chargeable['currency'] = $this->_defaultConfig['defaultCurrency'];
+        }
+        else {
+            $chargeable['currency'] = $chargeable[$this->_config['currency']];
+        }
+        
+        // Default name field
+        if (is_null($this->_config['name']) || !isset($chargeable[$this->_config['name']])) {
+            $chargeable['name'] = $this->_defaultConfig['defaultName'];
+        }
+        else {
+            $chargeable['name'] = $chargeable[$this->_config['name']];
+        }
+        
+        // Default description field
+        if (is_null($this->_config['description']) || !isset($chargeable[$this->_config['description']])) {
+            $chargeable['description'] = $this->_defaultConfig['defaultDescription'];
+        }
+        else {
+            $chargeable['description'] = $chargeable[$this->_config['description']];
+        }
+        
+        return $chargeable;
     }
 }

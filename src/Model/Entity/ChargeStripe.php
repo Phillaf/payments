@@ -20,7 +20,7 @@ class ChargeStripe extends ChargeBase
         $this->_gateway->setApiKey($config['apiKey']);
     }
 
-    public function purchase($data, $chargeable)
+    public function purchaseInternal($data, $chargeable)
     {
         $formData = array( 
             'number' => $data['card-number'], 
@@ -32,14 +32,13 @@ class ChargeStripe extends ChargeBase
         $params = array(
             'name' => $chargeable['name'],
             'description' => $chargeable['description'],
-            'amount' => $chargeable['amount'],
+            'amount' => $chargeable['amount_unit'],
             'currency' => $chargeable['currency'],
             'receipt_email' => 'test@mail.com',
             'receipt_number' => '0',
             'card' => $formData,
         );
-        
-        debug($params);
+
         $response = $this->_gateway->purchase($params)->send();
 
         if ($response->isSuccessful()) {
@@ -56,8 +55,12 @@ class ChargeStripe extends ChargeBase
             //echo $response->getMessage();
         }
         
+        // Set reponse fields 
+        // todo: better way?
         $purchaseData = $response->getData();
-        
-        return $purchaseData;
+        $this->amount = $purchaseData['amount'];
+        $this->currency = $purchaseData['currency'];
+        $this->status = $purchaseData['status'];
+        $this->paid = $purchaseData['paid'];
     }
 }

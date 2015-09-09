@@ -37,7 +37,7 @@ class PlansTable extends Table
         ]);
         
         //$this->addBehavior('Payments.Chargeable');
-        $this->addBehavior('Payments.Chargeable', ['amount' => 'amount', 'currency' => 'currency']);
+        $this->addBehavior('Payments.Chargeable', ['amount' => 'amount', 'currency' => 'currency', 'name' => 'name']);
     }
 
     /**
