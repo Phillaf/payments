@@ -7,8 +7,6 @@ use Cake\Network\Exception\InternalErrorException;
 use Payments\Model\Entity\Plan;
 use Payments\Model\Entity\Subscription;
 
-use Cake\I18n\Time;
-
 /**
  * AbstractCharge Entity.
  */
@@ -36,12 +34,12 @@ abstract class AbstractCharge extends Entity
     
     // Abstract functions
     abstract public function create($config);
-    abstract protected function purchaseInternal($data, $chargeable);
+    abstract protected function purchaseChargeable($data, $chargeable);
     
     public function purchase($data, $userId, $chargeable)
     {
-        // Purchase with gateway gateway
-        $response = $this->purchaseInternal($data, $chargeable);
+        // Purchase with gateway
+        $response = $this->purchaseChargeable($data, $chargeable);
         
         // Check response status
         if (!is_null($response)) {

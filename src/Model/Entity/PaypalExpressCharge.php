@@ -3,13 +3,13 @@ namespace Payments\Model\Entity;
 
 use Cake\ORM\TableRegistry;
 use Cake\ORM\Entity;
-use Payments\Model\Entity\ChargeBase;
 use Omnipay\Omnipay;
+use Payments\Model\Entity\AbstractCharge;
 
 /**
- * Charge Entity.
+ * PaypalExpressCharge Entity.
  */
-class PaypalExpressCharge extends ChargeBase
+class PaypalExpressCharge extends AbstractCharge
 {
     public function create($config)
     {
@@ -23,7 +23,7 @@ class PaypalExpressCharge extends ChargeBase
         $this->_gateway->setTestMode($config['testMode']);
     }
 
-    public function purchaseInternal($data, $chargeable)
+    public function purchaseChargeable($data, $chargeable)
     {
         $params = array(
             'cancelUrl' => 'http://cms/payments/plans/cancel',

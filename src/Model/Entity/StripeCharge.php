@@ -3,11 +3,11 @@ namespace Payments\Model\Entity;
 
 use Cake\ORM\TableRegistry;
 use Cake\ORM\Entity;
-use Payments\Model\Entity\AbstractCharge;
 use Omnipay\Omnipay;
+use Payments\Model\Entity\AbstractCharge;
 
 /**
- * Charge Entity.
+ * StripeCharge Entity.
  */
 class StripeCharge extends AbstractCharge
 {
@@ -20,7 +20,7 @@ class StripeCharge extends AbstractCharge
         $this->_gateway->setApiKey($config['apiKey']);
     }
 
-    public function purchaseInternal($data, $chargeable)
+    public function purchaseChargeable($data, $chargeable)
     {
         $cardData = array( 
             'number' => $data['card-number'], 

@@ -32,6 +32,11 @@ class ChargeableBehavior extends Behavior
         'defaultDescription' => 'Item Description'
     ];
     
+    /* Initialize the chargeable behavior
+    *
+    * @param array $config
+    * @return void
+    */
     public function initialize(array $config)
     {
         if (is_null($config['amount'])) {
@@ -39,6 +44,14 @@ class ChargeableBehavior extends Behavior
         }
     }
     
+    /* Purchase a chargeable item with the configurated payment gateway
+    *
+    * @param array $cardData
+    * @param integer $userId
+    * @param integer $chargeableId
+    * @param interger $quantity
+    * @return \Payments\Entity\Charge;
+    */
     public function purchase($cardData, $userId, $chargeableId, $quantity)
     {
         // todo: deal with gateway config somewhere else
@@ -69,6 +82,12 @@ class ChargeableBehavior extends Behavior
         return $charge;
     }
     
+    /* Set the fields of the desired chargeable objects. If any field does
+    * not exist in the database, the default configuration value is used.
+    *
+    * @param \Cake\Datasource\EntityInterface $chargeable
+    * @return \Cake\Datasource\EntityInterface
+    */
     protected function setFields($chargeable)
     {   
         // Set necessary fields
