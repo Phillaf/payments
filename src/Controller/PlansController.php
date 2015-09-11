@@ -25,18 +25,17 @@ class PlansController extends AppController
             
             // Create the requested charge
             $charge = $this->Plans->purchase($this->request->data, $user, $plan_id, 1);
-            
-            // Save it in the database
-            //$charge = $this->Charges->patchEntity($charge, $chargeData);
-            /*if ($this->Charges->save($charge)) {
-                $this->Flash->success(__('The charge has been saved.'));
-                return $this->redirect(['action' => 'index']);
-            } else {
-                $this->Flash->error(__('The charge could not be saved. Please, try again.'));
-            } */
         }
-        //$users = $this->Charges->Users->find('list', ['limit' => 200]);
         $this->set(compact('plan'));
         $this->set('_serialize', ['plan']);
+    }
+    public function success()
+    {        
+        debug($this->request);
+    }
+    
+    public function cancel()
+    {        
+        debug($this->request);
     }
 }
