@@ -25,6 +25,10 @@
         "stripe/stripe-php": "3.*",
         "cakephp/cakephp": "~3.0"
     },
+    "require-dev": {
+        "phpunit/phpunit": "*",
+        "cakephp/cakephp-codesniffer": "2.*"
+    },
     "autoload": {
         "psr-4": {
             "Payments\\": "src"
