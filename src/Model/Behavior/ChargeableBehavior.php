@@ -10,6 +10,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\InternalErrorException;
 use Cake\Core\Configure;
 use Cake\Utility\Hash;
+use Cake\Datasource\EntityInterface
 
 /**
  * Chargeable Behavior
@@ -52,7 +53,7 @@ class ChargeableBehavior extends Behavior
     * @param interger $quantity
     * @return \Payments\Entity\Charge;
     */
-    public function purchase($cardData, $userId, $chargeableId, $quantity)
+    public function purchase(array $cardData, $userId, $chargeableId, $quantity)
     {
         // todo: deal with gateway config somewhere else
         // Get payments configuration
@@ -88,7 +89,7 @@ class ChargeableBehavior extends Behavior
     * @param \Cake\Datasource\EntityInterface $chargeable
     * @return \Cake\Datasource\EntityInterface
     */
-    protected function setFields($chargeable)
+    protected function setFields(EntityInterface $chargeable)
     {   
         // Set necessary fields
         $chargeable->amount = $chargeable->{$this->_config['amount']};
