@@ -5,8 +5,10 @@ use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Validation\Validator;
-use Payments\Model\Entity\ChargePaypal;
-use Payments\Model\Entity\ChargeStripe;
+use Cake\Network\Exception\InternalErrorException;
+use Payments\Model\Entity\PaypalExpressCharge;
+use Payments\Model\Entity\PaypalRestCharge;
+use Payments\Model\Entity\StripeCharge;
 
 /**
  * Charges Model
@@ -41,13 +43,16 @@ class ChargesTable extends Table
         if ($data === null) {
             if (isset($options['gateway'])) {
                 if ($options['gateway'] == 'Stripe') {
-                    $entity = new ChargeStripe([], ['source' => $this->registryAlias()]);
+                    $entity = new StripeCharge([], ['source' => $this->registryAlias()]);
                 }
                 else if ($options['gateway'] == 'PayPal_Express') {
-                        $entity = new ChargePaypal([], ['source' => $this->registryAlias()]);
+                        $entity = new PaypalExpressCharge([], ['source' => $this->registryAlias()]);
+                }
+                else if ($options['gateway'] == 'PayPal_Rest') {
+                        $entity = new PaypalRestCharge([], ['source' => $this->registryAlias()]);
                 }
                 else {
-                    // TODO exception
+                    throw new InternalErrorException('Invalid Payment Gateway');
                 }
                 return $entity;
             }

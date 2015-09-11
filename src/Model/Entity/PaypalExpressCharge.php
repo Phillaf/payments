@@ -9,7 +9,7 @@ use Omnipay\Omnipay;
 /**
  * Charge Entity.
  */
-class ChargePaypal extends ChargeBase
+class PaypalExpressCharge extends ChargeBase
 {
     public function create($config)
     {
@@ -23,14 +23,14 @@ class ChargePaypal extends ChargeBase
         $this->_gateway->setTestMode($config['testMode']);
     }
 
-    public function purchase($data)
+    public function purchaseInternal($data, $chargeable)
     {
         $params = array(
-            'cancelUrl' 	=> 'http://cms/payments/charges/index',
-            'returnUrl' 	=> 'http://cms/payments/charges/index', 
-            'description' 	=> 'Test',
-            'amount' 	    => $data['amount'],
-            'currency' 	    => $data['currency'],
+            'cancelUrl' => 'http://cms/payments/plans/cancel',
+            'returnUrl' => 'http://cms/payments/plans/success', 
+            'description' => $chargeable->description,
+            'amount' => $chargeable->amount_unit,
+            'currency' => $chargeable->currency,
         );
             
         $response = $this->_gateway->purchase($params)->send();
@@ -41,14 +41,28 @@ class ChargePaypal extends ChargeBase
         } elseif ($response->isRedirect()) {
             // redirect to offsite payment gateway
             debug("Great redirect");
-            $response->redirect();
+            //$response->redirect();
         } else {
             // payment failed: display message to customer
             debug("Great fail");
             echo $response->getMessage();
         }
+        /*debug($response->isSuccessful());
+        debug($response->isRedirect());
+        debug($response->getTransactionReference());
+        //debug($response->getTransactionId());
+        debug($response->getRedirectData()); 
+        debug($response->getMessage());
+        //exit;
+        $purchaseData = $response->getData();
+        debug($purchaseData);*/
         
-        $data = $response->getData();
+        // Set reponse fields 
+        // todo: better way?
+        $this->amount = $purchaseData['amount'];
+        $this->currency = $purchaseData['currency'];
+        $this->status = $purchaseData['status'];
+        $this->paid = $purchaseData['paid'];
         
         return $data;
     }
