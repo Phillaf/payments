@@ -10,6 +10,7 @@ use Cake\ORM\TableRegistry;
 use Cake\Network\Exception\InternalErrorException;
 use Cake\Core\Configure;
 use Cake\Utility\Hash;
+use Cake\Datasource\EntityInterface;
 
 /**
  * Chargeable Behavior
@@ -32,6 +33,12 @@ class ChargeableBehavior extends Behavior
         'defaultDescription' => 'Item Description'
     ];
     
+    /** 
+     * Initialize the chargeable behavior
+     *
+     * @param array $config
+     * @return void
+     */
     public function initialize(array $config)
     {
         if (is_null($config['amount'])) {
@@ -39,7 +46,16 @@ class ChargeableBehavior extends Behavior
         }
     }
     
-    public function purchase($cardData, $userId, $chargeableId, $quantity)
+    /**
+     * Purchase a chargeable item with the configurated payment gateway
+     *
+     * @param array $cardData
+     * @param integer $userId
+     * @param integer $chargeableId
+     * @param interger $quantity
+     * @return \Payments\Entity\Charge;
+     */
+    public function purchase(array $cardData, $userId, $chargeableId, $quantity)
     {
         // todo: deal with gateway config somewhere else
         // Get payments configuration
@@ -69,7 +85,14 @@ class ChargeableBehavior extends Behavior
         return $charge;
     }
     
-    protected function setFields($chargeable)
+    /**
+     * Set the fields of the desired chargeable objects. If any field does
+     * not exist in the database, the default configuration value is used.
+     *
+     * @param \Cake\Datasource\EntityInterface $chargeable
+     * @return \Cake\Datasource\EntityInterface
+     */
+    protected function setFields(EntityInterface $chargeable)
     {   
         // Set necessary fields
         $chargeable->amount = $chargeable->{$this->_config['amount']};

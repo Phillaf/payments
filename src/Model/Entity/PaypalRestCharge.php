@@ -3,11 +3,11 @@ namespace Payments\Model\Entity;
 
 use Cake\ORM\TableRegistry;
 use Cake\ORM\Entity;
-use Payments\Model\Entity\AbstractCharge;
 use Omnipay\Omnipay;
+use Payments\Model\Entity\AbstractCharge;
 
 /**
- * Charge Entity.
+ * PaypalRestCharge Entity.
  */
 class PaypalRestCharge extends AbstractCharge
 {
@@ -22,7 +22,7 @@ class PaypalRestCharge extends AbstractCharge
         $this->_gateway->setTestMode($config['testMode']);
     }
 
-    public function purchaseInternal($data, $chargeable)
+    public function purchaseChargeable($data, $chargeable)
     {
         $cardData = array( 
             'number' => $data['card-number'], 
