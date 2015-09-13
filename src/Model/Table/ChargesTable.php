@@ -4,11 +4,9 @@ namespace Payments\Model\Table;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
+use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
 use Cake\Network\Exception\InternalErrorException;
-use Payments\Model\Entity\PaypalExpressCharge;
-use Payments\Model\Entity\PaypalRestCharge;
-use Payments\Model\Entity\StripeCharge;
 
 /**
  * Charges Model
@@ -40,22 +38,13 @@ class ChargesTable extends Table
 
     public function newEntity($data = null, array $options = [])
     {
-        if ($data === null) {
-            if (isset($options['gateway'])) {
-                if ($options['gateway'] == 'Stripe') {
-                    $entity = new StripeCharge([], ['source' => $this->registryAlias()]);
-                }
-                else if ($options['gateway'] == 'PayPal_Express') {
-                        $entity = new PaypalExpressCharge([], ['source' => $this->registryAlias()]);
-                }
-                else if ($options['gateway'] == 'PayPal_Rest') {
-                        $entity = new PaypalRestCharge([], ['source' => $this->registryAlias()]);
-                }
-                else {
-                    throw new InternalErrorException('Invalid Payment Gateway');
-                }
-                return $entity;
-            }
+        if ($data === null && isset($options['gateway'])) {
+
+            $gateway = Inflector::classify($options['gateway']);
+            $chargeClass = '\Payments\Model\Entity\\' . $gateway . 'Charge';
+            $entity = new $chargeClass([], ['source' => $this->registryAlias()]);
+
+            return $entity;
         }
         
         return parent::newEntity($data, $options);
