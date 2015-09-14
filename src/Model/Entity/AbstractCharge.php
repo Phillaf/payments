@@ -1,9 +1,9 @@
 <?php
 namespace Payments\Model\Entity;
 
+use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Entity;
 use Cake\ORM\TableRegistry;
-use Cake\Network\Exception\InternalErrorException;
 use Payments\Model\Entity\Plan;
 use Payments\Model\Entity\Subscription;
 
@@ -32,10 +32,19 @@ abstract class AbstractCharge extends Entity
     protected $_name;
     protected $_gateway;
     
-    // Abstract functions
+    /**
+     * Todo: doc block
+     */
     abstract public function create($config);
+
+    /**
+     * Todo: doc block
+     */
     abstract protected function purchaseChargeable($data, $chargeable);
     
+    /**
+     * Todo: doc block
+     */
     public function purchase($data, $userId, $chargeable)
     {
         // Purchase with gateway

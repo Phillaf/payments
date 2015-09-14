@@ -1,8 +1,8 @@
 <?php
 namespace Payments\Model\Entity;
 
-use Cake\ORM\TableRegistry;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 use Omnipay\Omnipay;
 use Payments\Model\Entity\AbstractCharge;
 
@@ -11,6 +11,10 @@ use Payments\Model\Entity\AbstractCharge;
  */
 class PaypalExpressCharge extends AbstractCharge
 {
+
+    /**
+     * TODO: doc block
+     */
     public function create($config)
     {
         // Create payment gateway
@@ -23,16 +27,19 @@ class PaypalExpressCharge extends AbstractCharge
         $this->_gateway->setTestMode($config['testMode']);
     }
 
+    /**
+     * TODO: doc block
+     */
     public function purchaseChargeable($data, $chargeable)
     {
-        $params = array(
+        $params = [
             'cancelUrl' => 'http://cms/payments/plans/cancel',
-            'returnUrl' => 'http://cms/payments/plans/success', 
+            'returnUrl' => 'http://cms/payments/plans/success',
             'description' => $chargeable->description,
             'amount' => $chargeable->amount_unit,
             'currency' => $chargeable->currency,
-        );
-            
+        ];
+
         $response = $this->_gateway->purchase($params)->send();
 
         if ($response->isSuccessful()) {
@@ -47,17 +54,8 @@ class PaypalExpressCharge extends AbstractCharge
             debug("Great fail");
             echo $response->getMessage();
         }
-        /*debug($response->isSuccessful());
-        debug($response->isRedirect());
-        debug($response->getTransactionReference());
-        //debug($response->getTransactionId());
-        debug($response->getRedirectData()); 
-        debug($response->getMessage());
-        //exit;
-        $purchaseData = $response->getData();
-        debug($purchaseData);*/
         
-        // Set reponse fields 
+        // Set reponse fields
         // todo: better way?
         $this->amount = $purchaseData['amount'];
         $this->currency = $purchaseData['currency'];
