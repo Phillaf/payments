@@ -1,8 +1,8 @@
 <?php
 namespace Payments\Model\Entity;
 
-use Cake\ORM\TableRegistry;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 use Omnipay\Omnipay;
 use Payments\Model\Entity\AbstractCharge;
 
@@ -11,6 +11,9 @@ use Payments\Model\Entity\AbstractCharge;
  */
 class PaypalRestCharge extends AbstractCharge
 {
+    /**
+     * Todo: doc block
+     */
     public function create($config)
     {
         // Create payment gateway
@@ -22,30 +25,33 @@ class PaypalRestCharge extends AbstractCharge
         $this->_gateway->setTestMode($config['testMode']);
     }
 
+    /**
+     * Todo: doc block
+     */
     public function purchaseChargeable($data, $chargeable)
     {
-        $cardData = array( 
-            'number' => $data['card-number'], 
-            'expiryMonth' => $data['expiry-month'], 
+        $cardData = [
+            'number' => $data['card-number'],
+            'expiryMonth' => $data['expiry-month'],
             'expiryYear' => $data['expiry-year'],
             'cvv' => $data['card-cvc'],
             
             // todo: required fields
-            'billingAddress1'       => '1 Scrubby Creek Road',
-            'billingCountry'        => 'AU',
-            'billingCity'           => 'Scrubby Creek',
-            'billingPostcode'       => '4999',
-            'billingState'          => 'QLD',
-        );
+            'billingAddress1' => '1 Scrubby Creek Road',
+            'billingCountry' => 'AU',
+            'billingCity' => 'Scrubby Creek',
+            'billingPostcode' => '4999',
+            'billingState' => 'QLD',
+        ];
         
-        $params = array(
+        $params = [
             'cancelUrl' => 'http://cms/payments/plans/cancel',
-            'returnUrl' => 'http://cms/payments/plans/success', 
+            'returnUrl' => 'http://cms/payments/plans/success',
             'description' => $chargeable->description,
             'amount' => $chargeable->amount_unit,
             'currency' => $chargeable->currency,
             'card' => $cardData,
-        );
+        ];
             
         $response = $this->_gateway->purchase($params)->send();
 

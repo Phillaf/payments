@@ -1,12 +1,12 @@
 <?php
 namespace Payments\Model\Table;
 
+use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Query;
 use Cake\ORM\RulesChecker;
 use Cake\ORM\Table;
 use Cake\Utility\Inflector;
 use Cake\Validation\Validator;
-use Cake\Network\Exception\InternalErrorException;
 
 /**
  * Charges Model
@@ -36,10 +36,12 @@ class ChargesTable extends Table
     }
 
 
+    /**
+     * Todo: doc bloc
+     */
     public function newEntity($data = null, array $options = [])
     {
         if ($data === null && isset($options['gateway'])) {
-
             $gateway = Inflector::classify($options['gateway']);
             $chargeClass = '\Payments\Model\Entity\\' . $gateway . 'Charge';
             $entity = new $chargeClass([], ['source' => $this->registryAlias()]);

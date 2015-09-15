@@ -2,15 +2,15 @@
 
 namespace Payments\Model\Behavior;
 
+use Cake\Core\Configure;
+use Cake\Datasource\EntityInterface;
 use Cake\Event\Event;
+use Cake\Network\Exception\InternalErrorException;
 use Cake\ORM\Behavior;
 use Cake\ORM\Entity;
 use Cake\ORM\Table;
 use Cake\ORM\TableRegistry;
-use Cake\Network\Exception\InternalErrorException;
-use Cake\Core\Configure;
 use Cake\Utility\Hash;
-use Cake\Datasource\EntityInterface;
 
 /**
  * Chargeable Behavior
@@ -33,10 +33,10 @@ class ChargeableBehavior extends Behavior
         'defaultDescription' => 'Item Description'
     ];
     
-    /** 
+    /**
      * Initialize the chargeable behavior
      *
-     * @param array $config
+     * @param array $config Configuration options
      * @return void
      */
     public function initialize(array $config)
@@ -49,11 +49,11 @@ class ChargeableBehavior extends Behavior
     /**
      * Purchase a chargeable item with the configurated payment gateway
      *
-     * @param array $cardData
-     * @param integer $userId
-     * @param integer $chargeableId
-     * @param interger $quantity
-     * @return \Payments\Entity\Charge;
+     * @param array $cardData Credit card data as defined in omnipay
+     * @param int $userId foreign key matghing your users table id
+     * @param int $chargeableId foreign key matching the item being purchased
+     * @param int $quantity the number of items being purchased
+     * @return \Payments\Entity\Charge
      */
     public function purchase(array $cardData, $userId, $chargeableId, $quantity)
     {
@@ -89,36 +89,33 @@ class ChargeableBehavior extends Behavior
      * Set the fields of the desired chargeable objects. If any field does
      * not exist in the database, the default configuration value is used.
      *
-     * @param \Cake\Datasource\EntityInterface $chargeable
+     * @param \Cake\Datasource\EntityInterface $chargeable the item being charged
      * @return \Cake\Datasource\EntityInterface
      */
     protected function setFields(EntityInterface $chargeable)
-    {   
+    {
         // Set necessary fields
         $chargeable->amount = $chargeable->{$this->_config['amount']};
-        $chargeable->amount_unit = $chargeable->amount/100.0;   // Plan amount should be in cents
+        $chargeable->amount_unit = $chargeable->amount / 100.0; // amount in cents
         
         // Default currency field
         if (is_null($this->_config['currency']) || !isset($chargeable->{$this->_config['currency']})) {
             $chargeable->currency = $this->_defaultConfig['defaultCurrency'];
-        }
-        else {
+        } else {
             $chargeable->currency = $chargeable->{$this->_config['currency']};
         }
         
         // Default name field
         if (is_null($this->_config['name']) || !isset($chargeable->{$this->_config['name']})) {
             $chargeable->name = $this->_defaultConfig['defaultName'];
-        }
-        else {
+        } else {
             $chargeable->name = $chargeable->{$this->_config['name']};
         }
         
         // Default description field
         if (is_null($this->_config['description']) || !isset($chargeable->{$this->_config['description']})) {
             $chargeable->description = $this->_defaultConfig['defaultDescription'];
-        }
-        else {
+        } else {
             $chargeable->description = $chargeable->{$this->_config['description']};
         }
         

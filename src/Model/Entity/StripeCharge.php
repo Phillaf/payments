@@ -1,8 +1,8 @@
 <?php
 namespace Payments\Model\Entity;
 
-use Cake\ORM\TableRegistry;
 use Cake\ORM\Entity;
+use Cake\ORM\TableRegistry;
 use Omnipay\Omnipay;
 use Payments\Model\Entity\AbstractCharge;
 
@@ -11,6 +11,9 @@ use Payments\Model\Entity\AbstractCharge;
  */
 class StripeCharge extends AbstractCharge
 {
+    /**
+     * Todo: doc comment
+     */
     public function create($config)
     {
         // Create payment gateway
@@ -20,16 +23,19 @@ class StripeCharge extends AbstractCharge
         $this->_gateway->setApiKey($config['apiKey']);
     }
 
+    /**
+     * Todo: doc comment
+     */
     public function purchaseChargeable($data, $chargeable)
     {
-        $cardData = array( 
-            'number' => $data['card-number'], 
-            'expiryMonth' => $data['expiry-month'], 
+        $cardData = [
+            'number' => $data['card-number'],
+            'expiryMonth' => $data['expiry-month'],
             'expiryYear' => $data['expiry-year'],
             'cvv' => $data['card-cvc'],
-        );
+        ];
         
-        $params = array(
+        $params = [
             'name' => $chargeable->name,
             'description' => $chargeable->description,
             'amount' => $chargeable->amount_unit,
@@ -37,7 +43,7 @@ class StripeCharge extends AbstractCharge
             'receipt_email' => 'test@mail.com',
             'receipt_number' => '0',
             'card' => $cardData,
-        );
+        ];
 
         $response = $this->_gateway->purchase($params)->send();
 
