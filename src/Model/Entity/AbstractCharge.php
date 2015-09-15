@@ -68,8 +68,11 @@ abstract class AbstractCharge extends Entity
                 echo $response->getMessage();
             }
         }
+        // Fill in model fields
+        $this->model = $chargeable->_registryAlias;
+        $this->foreign_key = $chargeable->id;
         
-        // todo: fill in extra fields
+        // Fill in extra fields
         $this->amount = $chargeable->amount;
         $this->currency = $chargeable->currency;
         $this->charged_with = $this->_name;

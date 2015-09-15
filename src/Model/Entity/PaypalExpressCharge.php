@@ -41,8 +41,10 @@ class PaypalExpressCharge extends AbstractCharge
         ];
 
         $response = $this->_gateway->purchase($params)->send();
+        
+        // todo: redirect
 
-        if ($response->isSuccessful()) {
+        /*if ($response->isSuccessful()) {
             // payment was successful: update database
             debug("Great success");
         } elseif ($response->isRedirect()) {
@@ -53,15 +55,9 @@ class PaypalExpressCharge extends AbstractCharge
             // payment failed: display message to customer
             debug("Great fail");
             echo $response->getMessage();
-        }
+        }*/
+       
         
-        // Set reponse fields
-        // todo: better way?
-        $this->amount = $purchaseData['amount'];
-        $this->currency = $purchaseData['currency'];
-        $this->status = $purchaseData['status'];
-        $this->paid = $purchaseData['paid'];
-        
-        return $data;
+        return $response;
     }
 }

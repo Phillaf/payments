@@ -52,58 +52,6 @@
             ->create();
             
             //
-            // Subscriptions
-            //
-            $table = $this->table('subscriptions');
-            $table
-            ->addColumn('plan_id', 'integer', [
-                'default' => null,
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('user_id', 'integer', [
-                'default' => null,
-                'limit' => 11,
-                'null' => false,
-            ])
-            ->addColumn('status', 'text', [
-                'default' => null,
-                'limit' => null,
-                'null' => false,
-            ])
-            ->addColumn('cancel_at_period_end', 'boolean', [
-                'default' => true,
-                'limit' => null,
-                'null' => false,
-            ])
-            ->addColumn('start', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('current_period_start', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('current_period_end', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('ended_at', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->addColumn('canceled_at', 'datetime', [
-                'default' => null,
-                'limit' => null,
-                'null' => true,
-            ])
-            ->create();
-            
-            //
             // Charges
             //
             $table = $this->table('charges');
@@ -144,6 +92,16 @@
                 'null' => false,
             ])
             ->addColumn('receipt_number', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('model', 'text', [
+                'default' => null,
+                'limit' => null,
+                'null' => false,
+            ])
+            ->addColumn('foreign_key', 'integer', [
                 'default' => null,
                 'limit' => null,
                 'null' => false,

@@ -44,6 +44,7 @@ class PaypalRestCharge extends AbstractCharge
             'billingState' => 'QLD',
         ];
         
+        
         $params = [
             'cancelUrl' => 'http://cms/payments/plans/cancel',
             'returnUrl' => 'http://cms/payments/plans/success',
@@ -52,6 +53,8 @@ class PaypalRestCharge extends AbstractCharge
             'currency' => $chargeable->currency,
             'card' => $cardData,
         ];
+        
+        // todo: authorize ?
             
         $response = $this->_gateway->purchase($params)->send();
 

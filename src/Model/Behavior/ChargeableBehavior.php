@@ -50,7 +50,7 @@ class ChargeableBehavior extends Behavior
      * Purchase a chargeable item with the configurated payment gateway
      *
      * @param array $cardData Credit card data as defined in omnipay
-     * @param int $userId foreign key matghing your users table id
+     * @param int $userId foreign key matching your users table id
      * @param int $chargeableId foreign key matching the item being purchased
      * @param int $quantity the number of items being purchased
      * @return \Payments\Entity\Charge
