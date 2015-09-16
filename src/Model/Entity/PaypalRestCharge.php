@@ -28,7 +28,7 @@ class PaypalRestCharge extends AbstractCharge
     /**
      * Todo: doc block
      */
-    public function purchaseChargeable($data, $chargeable)
+    public function purchaseChargeable($card, $chargeable)
     { 
         $params = [
             'cancelUrl' => 'http://cms/payments/plans/cancel',
@@ -36,12 +36,16 @@ class PaypalRestCharge extends AbstractCharge
             'description' => $chargeable->description,
             'amount' => $chargeable->amount_unit,
             'currency' => $chargeable->currency,
-            'card' => $cardData,
+            'card' => $card,
         ];
         
-        // todo: authorize ?
-            
-        $response = $this->_gateway->purchase($params)->send();
+        //  Authorize and send transaction    
+        try {
+            $transaction = $this->_gateway->authorize($params);
+            $response = $transaction->send();
+        } catch (\Exception $e) {
+            // todo: Throw exception
+        }
 
         return $response;
     }
