@@ -30,7 +30,7 @@ class PaypalExpressCharge extends AbstractCharge
     /**
      * TODO: doc block
      */
-    public function purchaseChargeable($data, $chargeable)
+    public function purchaseChargeable($card, $chargeable)
     {
         $params = [
             'cancelUrl' => 'http://cms/payments/plans/cancel',

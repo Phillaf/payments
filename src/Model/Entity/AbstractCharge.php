@@ -40,15 +40,33 @@ abstract class AbstractCharge extends Entity
     /**
      * Todo: doc block
      */
-    abstract protected function purchaseChargeable($data, $chargeable);
+    abstract protected function purchaseChargeable($card, $chargeable);
     
     /**
      * Todo: doc block
      */
     public function purchase($data, $userId, $chargeable)
     {
+        // Set card information
+        $card = [
+            'firstName' => $data['pay-firstname'],
+            'lastName' => $data['pay-lastname'],
+            'number' => $data['pay-card-number'],
+            'expiryMonth' => $data['pay-card-expiry-month'],
+            'expiryYear' => $data['pay-card-expiry-year'],
+            'cvv' => $data['pay-card-cvc'],
+
+            // todo: billing/shipping ?
+            'address1' => $data['pay-bill-address1'],
+            'address2' => $data['pay-bill-address1'],
+            'country' => $data['pay-bill-country'],
+            'city' => $data['pay-bill-city'],
+            'postcode' => $data['pay-bill-postcode'],
+            'state' => $data['pay-bill-state'],
+        ];
+        
         // Purchase with gateway
-        $response = $this->purchaseChargeable($data, $chargeable);
+        $response = $this->purchaseChargeable($card, $chargeable);
         
         // Check response status
         if (!is_null($response)) {
@@ -68,6 +86,7 @@ abstract class AbstractCharge extends Entity
                 echo $response->getMessage();
             }
         }
+        
         // Fill in model fields
         $this->model = $chargeable->_registryAlias;
         $this->foreign_key = $chargeable->id;

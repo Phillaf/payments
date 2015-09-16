@@ -26,15 +26,8 @@ class StripeCharge extends AbstractCharge
     /**
      * Todo: doc comment
      */
-    public function purchaseChargeable($data, $chargeable)
-    {
-        $cardData = [
-            'number' => $data['card-number'],
-            'expiryMonth' => $data['expiry-month'],
-            'expiryYear' => $data['expiry-year'],
-            'cvv' => $data['card-cvc'],
-        ];
-        
+    public function purchaseChargeable($card, $chargeable)
+    {        
         $params = [
             'name' => $chargeable->name,
             'description' => $chargeable->description,
@@ -42,7 +35,7 @@ class StripeCharge extends AbstractCharge
             'currency' => $chargeable->currency,
             'receipt_email' => 'test@mail.com',
             'receipt_number' => '0',
-            'card' => $cardData,
+            'card' => $card,
         ];
 
         $response = $this->_gateway->purchase($params)->send();

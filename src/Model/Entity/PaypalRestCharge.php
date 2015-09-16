@@ -29,22 +29,7 @@ class PaypalRestCharge extends AbstractCharge
      * Todo: doc block
      */
     public function purchaseChargeable($data, $chargeable)
-    {
-        $cardData = [
-            'number' => $data['card-number'],
-            'expiryMonth' => $data['expiry-month'],
-            'expiryYear' => $data['expiry-year'],
-            'cvv' => $data['card-cvc'],
-            
-            // todo: required fields
-            'billingAddress1' => '1 Scrubby Creek Road',
-            'billingCountry' => 'AU',
-            'billingCity' => 'Scrubby Creek',
-            'billingPostcode' => '4999',
-            'billingState' => 'QLD',
-        ];
-        
-        
+    { 
         $params = [
             'cancelUrl' => 'http://cms/payments/plans/cancel',
             'returnUrl' => 'http://cms/payments/plans/success',
