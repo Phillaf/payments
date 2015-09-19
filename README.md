@@ -68,13 +68,34 @@ option.
 
 ## Usage
 
-Create a form and collect credit card information 
+Create a form and collect credit card information. The following credit card fields(prefixed with 'pay-') are required:  
+* card-number
+* card-expiry-month
+* card-expiry-year
+* card-cvc
 
+Some extra fields are also available to add billing or shipping information to a payment. The following customer information fields(prefixed with 'pay-bill-' or 'pay-ship-') are available: 
+* firstName
+* lastName
+* name
+* company
+* address1
+* address2
+* city
+* postcode
+* state
+* country
+* phone
+* fax. 
 
-**todo: form example**
 ```
 <?php $this->Form->create($item) ?>
-<?php $this->Form->input(...) ?>
+    echo $this->Form->input('pay-bill-firstname', ['type' => 'text', 'label' => 'First Name']);
+    echo $this->Form->input('pay-bill-lastname', ['type' => 'text', 'label' => 'Last Name']);
+    echo $this->Form->input('pay-card-number', ['type' => 'text', 'label' => 'Card Number']);
+    echo $this->Form->input('pay-card-expiry-month', ['type' => 'text', 'label' => 'Expiration Month']);
+    echo $this->Form->input('pay-card-expiry-year', ['type' => 'text', 'label' => 'Expiration Year']);
+    echo $this->Form->input('pay-card-cvc', ['type' => 'text', 'label' => 'CVC']);
 <?php $this->Form->end() ?>
 ```
 
