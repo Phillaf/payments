@@ -77,7 +77,6 @@ Create a form and collect credit card information. The following credit card fie
 Some extra fields are also available to add billing or shipping information to a payment. The following customer information fields(prefixed with 'pay-bill-' or 'pay-ship-') are available: 
 * firstName
 * lastName
-* name
 * company
 * address1
 * address2
@@ -86,7 +85,6 @@ Some extra fields are also available to add billing or shipping information to a
 * state
 * country
 * phone
-* fax. 
 
 ```
 <?php $this->Form->create($item) ?>

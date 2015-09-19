@@ -49,20 +49,32 @@ abstract class AbstractCharge extends Entity
     {
         // Set card information
         $card = [
-            'firstName' => $data['pay-firstname'],
-            'lastName' => $data['pay-lastname'],
             'number' => $data['pay-card-number'],
             'expiryMonth' => $data['pay-card-expiry-month'],
             'expiryYear' => $data['pay-card-expiry-year'],
             'cvv' => $data['pay-card-cvc'],
 
-            // todo: billing/shipping ?
-            'address1' => $data['pay-bill-address1'],
-            'address2' => $data['pay-bill-address1'],
-            'country' => $data['pay-bill-country'],
-            'city' => $data['pay-bill-city'],
-            'postcode' => $data['pay-bill-postcode'],
-            'state' => $data['pay-bill-state'],
+            'billingFirstName' => $data['pay-bill-firstname'],
+            'billingLastName' => $data['pay-bill-lastname'],
+            'billingCompany' => $data['pay-bill-company'],
+            'billingAddress1' => $data['pay-bill-address1'],
+            'billingAddress2' => $data['pay-bill-address1'],
+            'billingCountry' => $data['pay-bill-country'],
+            'billingCity' => $data['pay-bill-city'],
+            'billingPostcode' => $data['pay-bill-postcode'],
+            'billingState' => $data['pay-bill-state'],
+            'billingPhone' => $data['pay-bill-phone'],
+            
+            'shippingFirstName' => $data['pay-ship-firstname'],
+            'shippingLastName' => $data['pay-ship-lastname'],
+            'shippingCompany' => $data['pay-ship-company'],
+            'shippingAddress1' => $data['pay-ship-address1'],
+            'shippingAddress2' => $data['pay-ship-address1'],
+            'shippingCountry' => $data['pay-ship-country'],
+            'shippingCity' => $data['pay-ship-city'],
+            'shippingPostcode' => $data['pay-ship-postcode'],
+            'shippingState' => $data['pay-ship-state'],
+            'shippingPhone' => $data['pay-ship-phone'],
         ];
         
         // Purchase with gateway
