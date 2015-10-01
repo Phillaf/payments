@@ -20,7 +20,7 @@ class ChargeableBehaviorTest extends TestCase
     {
         parent::setUp();
         $this->Tags = TableRegistry::get('Payments.Laptops', ['table' => 'laptops']);
-        $this->Tags->addBehavior('Payments.Chargeable');
+        $this->Tags->addBehavior('Payments.Chargeable', ['amount' => 'price']);
         $this->ChargeableBehavior = $this->Tags->behaviors()->Chargeable;
 
         //parent::setUp();
