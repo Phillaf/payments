@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/gintonicweb/payments.svg)](https://travis-ci.org/gintonicweb/payments)
+[![Coverage Status](https://coveralls.io/repos/gintonicweb/payments/badge.svg?branch=master&service=github)](https://coveralls.io/github/gintonicweb/payments?branch=master)
 
 # payments
 
